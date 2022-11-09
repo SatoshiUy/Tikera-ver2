@@ -11,11 +11,13 @@ import { doc } from 'firebase/firestore';
 import { auth, db } from '../../config/firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useDocument } from 'react-firebase-hooks/firestore';
+import { useRouter } from 'next/router';
 
 function Banner() {
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [modalText, setModalText] = useState('Content of the modal');
+  const router = useRouter()
 
   const showModal = () => {
     setOpen(true);
@@ -34,6 +36,7 @@ function Banner() {
   const handleCancel = () => {
     console.log('Clicked cancel button');
     setOpen(false);
+    router.push('/profile/');
   };
 
 
@@ -85,7 +88,7 @@ const [value] = useDocument(
         confirmLoading={confirmLoading}
         closable = {false}
         width={600}
-        footer={value?.data()?.strength ? <Button type='primary' onClick={handleCancel}>Done</Button> : <Button type='primary' disabled>Done</Button>}
+        footer={value?.data()?.username ? <Button type='primary' onClick={handleCancel}>Done</Button> : <Button type='primary' disabled>Done</Button>}
       >
         <StepFormAccount value={value?.data()} handleCancel={handleCancel}/>
       </Modal>

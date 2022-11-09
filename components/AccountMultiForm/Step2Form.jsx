@@ -79,7 +79,6 @@ export default function Step1Form({ data, onSuccess, onBack, handleCancel}) {
       ...data,
       photoURL: _downloadURL
     });
-    await router.push('https://tikera-ver2.vercel.app/');
   }
 
 

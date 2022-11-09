@@ -11,7 +11,6 @@ import {useAuthState} from'react-firebase-hooks/auth';
 import { useDownloadURL, useUploadFile  } from 'react-firebase-hooks/storage';
 import {auth, db, storage} from '../config/firebase';
 import { useDocument } from 'react-firebase-hooks/firestore';
-import { useEffect } from 'react';
 import { doc, setDoc } from 'firebase/firestore';
 function ProfileCard() {
   const [loggedInUser] = useAuthState(auth);
@@ -92,7 +91,6 @@ function ProfileCard() {
         <div style={{position:'absolute', zIndex:10, color:'white', left:'50%', transform:'translateX(-50%)', textShadow: '2px 4px 3px rgba(0,0,0,0.3)',minWidth:'300px', display:'flex',alignItems:'center', flexFlow:'column', top:'20px'}}>
           <div style={{fontSize:'30px', fontWeight:'700'}}>{value?.data()?.username || loggedInUser?.email}</div>
           <div style={{fontSize:'16px', fontWeight:'500'}}>{(value?.data()?.position) ? value?.data()?.position : "Designer"}</div>
-          <div style={{fontSize:'12px', fontWeight:'500'}}>Giờ online gần đây: {Date(value?.data().lastSeen.toDate().getTime()).toLocaleString("dd/mm/yyyy")}</div>
         </div>
         <ImgCrop rotate>
           <Upload
