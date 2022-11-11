@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Form, Button, Input, Select, notification, Card, Space, Typography, Col, Row, Avatar, Carousel } from "antd";
+import { Form, Button, Input, Select, notification, Card, Space, Typography, Col, Row, Avatar, Carousel, Descriptions } from "antd";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../../config/firebase";
 import { arrayUnion, collection, doc, getDoc, getDocs, query, setDoc, updateDoc, where } from "firebase/firestore";
@@ -45,26 +45,11 @@ export default function Step0Form({ data, onSuccess }) {
 
   
 
-  const handleBook = async (value) => {
-    try {
-      await setDoc(
-        doc(db, 'requirements', `${data.randomNumber}`),
-        {
-          ...data,
-          bookDesignerId: value
-        },
-        {merge: true}
-      )
-    } catch(error) {
-      notification.open({
-        message: 'Error',
-        description:`${error.message}`,
-      });
-    }
-
+  const handleBook = async (designer) => {
     await onSuccess({
       ...data,
-      bookDesignerEmail: value
+      bookDesignerUID: designer.uid,
+      designerInfo: designer
     });
   }
 
@@ -99,7 +84,7 @@ export default function Step0Form({ data, onSuccess }) {
             )
           }
           actions={[
-            <Button type="primary" shape="round" icon={<DiffOutlined />} size="large" onClick={() => handleBook(designer.email)}>
+            <Button type="primary" shape="round" icon={<DiffOutlined />} size="large" onClick={() => handleBook(designer)}>
               Book Designer
             </Button>
           ]}
@@ -111,10 +96,12 @@ export default function Step0Form({ data, onSuccess }) {
             description={designer.email}
             style={{padding:'20px'}}
           />
-          <Typography style={{fontWeight:'400', fontSize:'14px'}} align="left">Position: {designer.position}</Typography>
-          <Typography style={{fontWeight:'400', fontSize:'14px'}} align="left">Role: {designer.role}</Typography>
-          <Typography style={{fontWeight:'400', fontSize:'14px'}} align="left">Strength: {designer.strength}</Typography>
-          <Typography style={{fontWeight:'400', fontSize:'14px'}} align="left">Description: {designer.description}</Typography>
+          <Descriptions title={`Designer UID:  ${designer.uid}`} size="small" layout="vertical" column={2} bordered style={{textAlign: 'left' ,fontSize:"30px"}}>
+            <Descriptions.Item label="Position">{designer.position}</Descriptions.Item>
+            <Descriptions.Item label="Role">{designer.role}</Descriptions.Item>
+            <Descriptions.Item label="Strength" span={2}>{designer.strength}</Descriptions.Item>
+            <Descriptions.Item label="Description" span={2}>{designer.description}</Descriptions.Item>
+          </Descriptions>
         </Card>
       </Col>
       ))}

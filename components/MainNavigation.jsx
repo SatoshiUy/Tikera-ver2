@@ -7,12 +7,14 @@ import Tikera_Logo from '../public/owner/tikera_logo.png';
 import Image from 'next/image';
 
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth } from '../config/firebase';
+import { auth, db } from '../config/firebase';
 import { DownOutlined, LogoutOutlined, UserOutlined } from '@ant-design/icons';
 import { signOut } from 'firebase/auth';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useState } from 'react';
+import { useDocument } from 'react-firebase-hooks/firestore';
+import { doc } from 'firebase/firestore';
 
 // const handleMenuClick = e => {
 //   message.info('Click on menu item.');
@@ -26,6 +28,13 @@ function MainNavigation() {
   const [loggedInUser, loading, error] = useAuthState(auth);
   const router = useRouter();
   const [currentRoute, setCurrentRoute] = useState(router.pathname);
+
+  const [value] = useDocument(
+    doc(db, `users`, `${loggedInUser?.uid}`),
+    {
+      snapshotListenOptions: { includeMetadataChanges: true },
+    }
+  );
 
   console.log('currentRoute: ', currentRoute);
   const items = [
@@ -67,26 +76,34 @@ function MainNavigation() {
             }}>
               Trang Chủ
             </Menu.Item>
-            <Menu.Item key="/requirement" onClick={() => {
-              router.push('/requirement')
-            }}>
-              Tạo Yêu cầu
-            </Menu.Item>
-            <Menu.Item key="/management" onClick={() => {
-              router.push('/management')
-            }}>
-              Quản lí sản phẩm
-            </Menu.Item>
-            {/* <Menu.SubMenu key="SubMenu" title="Dành cho nhà thiết kế">
-              <Menu.ItemGroup title="Bạn là...">
-                <Menu.Item key="two">
-                  Nhà thiết kế
+            {value?.data()?.role === 'customer' && (
+              <>
+                <Menu.Item key="/requirement" onClick={() => {
+                  router.push('/requirement')
+                }}>
+                  Tạo Yêu cầu
                 </Menu.Item>
-                <Menu.Item key="three">
-                  Khách hàng
+                <Menu.Item key="/payment" onClick={() => {
+                  router.push('/payment')
+                }}>
+                  Chọn sản phẩm và thanh toán
                 </Menu.Item>
-              </Menu.ItemGroup>
-            </Menu.SubMenu> */}
+                <Menu.Item key="/management" onClick={() => {
+                  router.push('/management')
+                }}>
+                  Quản lí sản phẩm
+                </Menu.Item>
+              </>
+            )}
+            {value?.data()?.role === 'designer' && (
+              <>
+                <Menu.Item key="/designer" onClick={() => {
+                  router.push('/designer')
+                }}>
+                  Xem thông tin yêu cầu
+                </Menu.Item>
+              </>
+            )}
           </Menu>
         </Col>
         <Col flex="100px">

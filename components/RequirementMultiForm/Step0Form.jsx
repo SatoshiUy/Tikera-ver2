@@ -26,6 +26,7 @@ export default function Step0Form({ data, onSuccess }) {
         {
           uid: loggedInUser?.uid,
           category: value,
+          email: loggedInUser?.email,
         },
         {merge: true}
       )

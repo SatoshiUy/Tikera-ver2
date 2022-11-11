@@ -15,7 +15,7 @@ import Image from "next/image";
 import LoadingPage from "../LoadingPage";
 
 import {useCollection, useCollectionData, useDocument, useDocumentOnce} from 'react-firebase-hooks/firestore';
-import { SettingOutlined } from "@ant-design/icons";
+import { DiffOutlined, SettingOutlined } from "@ant-design/icons";
 export default function Step0Form({ data, onSuccess }) {
   const [loggedInUser, loading, error] = useAuthState(auth);
   const [requirementList, setRequirementList] = React.useState([]);
@@ -47,13 +47,12 @@ export default function Step0Form({ data, onSuccess }) {
 
   
 
-  const handleSearchCategory = async (value,id) => {
-    console.log("djfhdjksalg",id)
+  const handleSearchCategory = async (category,requirementId) => {
     await onSuccess({
       ...data,
       uid: loggedInUser.uid,
-      randomNumber: id,
-      searchCategory: value
+      searchCategory: category,
+      requirementId: requirementId
     });
   }
 
@@ -72,9 +71,13 @@ export default function Step0Form({ data, onSuccess }) {
               <Image src={requirement.photoURL} width={240} height={240} alt="requirement Image"/>
             </div>
           }
-          onClick={() => handleSearchCategory(requirement.category, requirement.randomNumber)}
+          actions={[
+            <Button type="primary" shape="round" icon={<DiffOutlined />} size="large" onClick={() => handleSearchCategory(requirement.category,requirement.requirementId)}>
+              Chọn yêu cầu
+            </Button>
+          ]}
         >
-        <Descriptions title="Requirment Info" layout="vertical" column={2} bordered style={{textAlign: 'left'}}>
+        <Descriptions title={`Requirement ID:  ${requirement.requirementId}`} layout="vertical" column={2} bordered style={{textAlign: 'left' ,fontSize:"30px"}}>
           <Descriptions.Item label="Category">{requirement.category}</Descriptions.Item>
           <Descriptions.Item label="Company Name">{requirement.companyName}</Descriptions.Item>
           <Descriptions.Item label="Description" >{requirement.description}</Descriptions.Item>

@@ -16,7 +16,7 @@ import {SettingOutlined, EditOutlined, DiffOutlined} from "@ant-design/icons";
 import {useCollection, useCollectionData, useDocument, useDocumentOnce} from 'react-firebase-hooks/firestore';
 import  { useRouter } from "next/router";
 
-export default function Step0Form({ data, onSuccess }) {
+export default function Step2Form({ data, onSuccess }) {
   const [loggedInUser, loading, error] = useAuthState(auth);
   const [designerList, setDesignerList] = React.useState([]);
   const router = useRouter();
@@ -24,24 +24,27 @@ export default function Step0Form({ data, onSuccess }) {
   console.log("data form 2: ", data);
   
 
-  const handlePayment = async (value) => {
+  const handlePayment = async () => {
     try {
+      console.log("asdasd",data.requirementId);
       await setDoc(
-        doc(db, "requirements", `${data.randomNumber}`),
+        doc(db, "requirements", `${data.requirementId}`),
         {
           ...data,
-          isPayment: value
+          isPayment: false,
+          bookDesignerUID: data.uid
         },
         {merge: true}
       )
-      await addDoc(collection(db, 'conversations'), {
-        users: [loggedInUser?.email, data.bookDesignerEmail],       
-        requirement: {
-          ...data,
-          isPayment: value
-        }
-      })
-      await router.push('https://tikera-chat.vercel.app/');
+
+      // await addDoc(collection(db, 'conversations'), {
+      //   users: [loggedInUser?.email, data.bookDesignerEmail],       
+      //   requirement: {
+      //     ...data,
+      //     isPayment: value
+      //   }
+      // })
+      await router.push('/management');
 
     } catch(error) {
       notification.open({

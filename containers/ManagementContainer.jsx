@@ -1,26 +1,9 @@
 import { Steps, Typography } from 'antd'
 import {useState,useCallback} from 'react'
 
-import Step0Form from '../components/ManagementMultiForm/Step0Form'
-import Step1Form from '../components/ManagementMultiForm/Step1Form'
-import Step2Form from '../components/ManagementMultiForm/Step2Form'
+import ManageProduct from '../components/ManageProduct'
 
-const steps = [
-  {
-    title: 'Chọn dự án đang thực hiện',
-    content: 'First-content',
-  },
-  {
-    title: 'Chọn Designer',
-    content: 'Second-content',
-  },
-  {
-    title: 'Thanh toán',
-    content: 'Third-content',
-  },
-];
-
-function RequirementContainer() {
+function ManagementContainer() {
   const [current, setCurrent] = useState(0);
 
   const next = () => {
@@ -30,8 +13,6 @@ function RequirementContainer() {
   const prev = () => {
     setCurrent(current - 1);
   };
-  const items = steps.map(item => ({ key: item.title, title: item.title }));
-
   // form
   const [data, setData] = useState({});
   console.log(data)
@@ -63,20 +44,9 @@ function RequirementContainer() {
   };
   return (
     <div style={{width:'100vw', top:'80px', margin:'100px 0'}}>
-      <Steps type="navigation" current={current} items={items} onChange={handleChange}/>
-      <div className="steps-content" style={{paddingTop: '100px'}}>
-        {current === 0 && 
-          <Step0Form data={data} onSuccess={handleNextStep}/>
-        }
-        {current === 1 && 
-          <Step1Form data={data} onSuccess={handleNextStep} onBack={handlePrevStep}/>
-        }
-        {current === 2 && 
-          <Step2Form data={data} onSuccess={handleNextStep} onBack={handlePrevStep}/>
-        }
-      </div>
+          <ManageProduct data={data} onSuccess={handleNextStep}/>
     </div>
   )
 }
 
-export default RequirementContainer
+export default ManagementContainer

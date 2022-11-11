@@ -34,9 +34,10 @@ export default function Step3Form({ data, onSuccess, onBack }) {
     }
     await onSuccess({
       ...data,
-      ...values
+      ...values,
+      bookDesignerUID: 'null'
     });
-    await router.push('/management')
+    await router.push('/payment')
   }
   
   return (

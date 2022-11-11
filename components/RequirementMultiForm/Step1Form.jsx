@@ -20,7 +20,7 @@ export default function Step1Form({ data, onSuccess, onBack }) {
     try {
       await setDoc(doc(db, "requirements",  `${randomNumber}`),
         {
-          ...data,
+          requirementId: randomNumber,
           ...values
         },
         {merge: true}
