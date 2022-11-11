@@ -79,9 +79,10 @@ export const LoginForm: React.FC<LoginFormProps> = ({
         router.push('/');
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // ..
+        notification.error({
+          message: 'Error',
+          description: error.message
+        })
       });
       
     };
@@ -89,7 +90,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({
     return (
           <Row justify="center" align="middle">
             <Col sm={18} xs={22}>
-            <Link href="/authenticate/login">Quay về trang đăng nhập</Link>
+            <Link href="/authenticate/login">  &lt;- Quay về trang đăng nhập</Link>
               <Typography.Title className='text-weight-black m-none'>Đăng ký tài khoản</Typography.Title>
               <h3>Cùng tham gia vào cộng đồng thiết kế và người dùng</h3>
               <Form

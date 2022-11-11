@@ -1,5 +1,5 @@
 import { LockOutlined, LoginOutlined, MailOutlined } from '@ant-design/icons';
-import { Button, Checkbox, Col, Form, Input, Radio, Row, Select, Typography } from 'antd';
+import { Button, Checkbox, Col, Form, Input, notification, Radio, Row, Select, Typography } from 'antd';
 import { useForm } from 'antd/lib/form/Form';
 import { connect } from 'react-redux';
 import { Dispatch, dispatch, RootState, state } from '../store';
@@ -67,14 +67,20 @@ export const RegisterForm: React.FC<LoginFormProps> = ({
           password: password
         }
       );
-      signInWithEmailAndPassword(user.username, user.password);
-      
+        try {
+          signInWithEmailAndPassword(user.username, user.password);
+        } catch(error: any) {
+          notification.error({
+            message: 'Error',
+            description: "Lỗi xảy ra"
+          })
+        };
+
     };
 
     return (
           <Row justify="center" align="middle">
             <Col sm={18} xs={22}>
-              <Link href="/authenticate/register">Đăng kí tài khoản</Link>
               <Typography.Title style={{fontSize: '30px'}} className='m-none'>Xin chào bạn đã đến với Tikera!</Typography.Title>
               <h3>Cùng tham gia vào cộng đồng thiết kế và người dùng</h3>
               <Form
@@ -129,14 +135,7 @@ export const RegisterForm: React.FC<LoginFormProps> = ({
                       placeholder="Mật khảu"
                     />
                   </Form.Item>
-                  <Form.Item>
-                    <Form.Item name="remember" valuePropName="checked" noStyle>
-                      <Checkbox>Ghi nhớ tài khoản</Checkbox>
-                    </Form.Item>
-                    <a className="login-form-forgot" href="">
-                      Quên mật khẩu?
-                    </a>
-                  </Form.Item>
+                  <Link href="/authenticate/register">Đăng kí tài khoản</Link>
                   <Form.Item>
                     <Button 
                       className='login-form-button'

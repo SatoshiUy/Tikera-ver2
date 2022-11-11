@@ -96,7 +96,7 @@ export default function Step0Form({ data, onSuccess }) {
             description={designer.email}
             style={{padding:'20px'}}
           />
-          <Descriptions title={`Designer UID:  ${designer.uid}`} size="small" layout="vertical" column={2} bordered style={{textAlign: 'left' ,fontSize:"30px"}}>
+          <Descriptions size="small" layout="vertical" column={2} bordered style={{textAlign: 'left' ,fontSize:"30px"}}>
             <Descriptions.Item label="Position">{designer.position}</Descriptions.Item>
             <Descriptions.Item label="Role">{designer.role}</Descriptions.Item>
             <Descriptions.Item label="Strength" span={2}>{designer.strength}</Descriptions.Item>

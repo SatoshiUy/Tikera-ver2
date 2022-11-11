@@ -59,10 +59,12 @@ export default function Step2Form({ data, onSuccess }) {
     
     <Row align="top" style={{justifyContent:'space-around', marginTop: '-70px'}}>
       <Col span={5}>
-      <Space direction="vertical" size="large">
+      <Space direction="vertical" size="small">
           <div className="image_overlay" style={{height:'400px'}}>
             <Image src={Payment} alt="img" width={270} height={400}/>
           </div>
+          <div style={{fontSize:'14px', fontWeight:'400'}}>Gửi đơn với nội dung: </div>
+          <div style={{fontSize:'20px', fontWeight:'800'}}>{`Tikera Payment - ${data.requirementId}`}</div>
           <Button type="primary" onClick={() => handlePayment(false)} style={{marginTop:'30px'}}>Xác nhận đã chuyển</Button>
       </Space>
       </Col>
