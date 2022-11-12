@@ -41,21 +41,34 @@ export default function Step0Form({ data, onSuccess }) {
       <Col span={22}>
       <Space direction="horizontal" size="large" wrap width={"100%"}>
         {requirementList.map((requirement) => (
-          <Card
-          hoverable
-          style={{ width: 400,minHeight: 400}}
-          cover={
-            <div className="image_overlay" style={{padding: '20px 0'}}>
-              <Image src={requirement.photoURL} width={240} height={240} alt="requirement Image"/>
-            </div>
-          }
-        >
-        <Descriptions title={`Requirement ID:  ${requirement.requirementId}`} layout="vertical" column={2} bordered style={{textAlign: 'left' ,fontSize:"30px"}}>
-          <Descriptions.Item label="Category">{requirement.category}</Descriptions.Item>
-          <Descriptions.Item label="Company Name">{requirement.companyName}</Descriptions.Item>
-          <Descriptions.Item label="Description" >{requirement.description}</Descriptions.Item>
-        </Descriptions>
-        </Card>
+          
+          (
+            <Card
+              hoverable
+              style={{ width: 400,minHeight: 400}}
+              cover={
+                <div className="image_overlay" style={{padding: '20px 0'}}>
+                  <Image src={requirement.photoURL} width={240} height={240} alt="requirement Image"/>
+                </div>
+              }
+              actions={[
+                <Space direction="vertical">
+                  <Button type="primary" shape="round" icon={<DiffOutlined />} size="large" danger={requirement.isPayment ? false : true}>
+                  Tình trạng: {requirement.isPayment ? "Đã thanh toán" : "Chưa thanh toán"}
+                  </Button>
+                  <Button type="outlined" shape="round" icon={<DiffOutlined />} size="large" onClick={() => router.push("https://tikera-chat.vercel.app/")}>
+                    Bấm vào đây để di chuyển đến kênh chat
+                  </Button>
+                </Space>
+              ]}
+            >
+            <Descriptions title={`Requirement ID:  ${requirement.requirementId}`} layout="vertical" column={2} bordered style={{textAlign: 'left' ,fontSize:"30px"}}>
+              <Descriptions.Item label="Category">{requirement.category}</Descriptions.Item>
+              <Descriptions.Item label="Company Name">{requirement.companyName}</Descriptions.Item>
+              <Descriptions.Item label="Description" >{requirement.description}</Descriptions.Item>
+            </Descriptions>
+          </Card>
+          )
         ))}
       </Space>
     </Col>

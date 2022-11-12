@@ -63,6 +63,9 @@ export default function Step0Form({ data, onSuccess }) {
       <Col span={22}>
       <Space direction="horizontal" size="large" wrap width={"100%"}>
         {requirementList.map((requirement) => (
+          requirement?.bookDesignerUID
+          ? (<></>)
+        :(
           <Card
           hoverable
           style={{ width: 400,minHeight: 400}}
@@ -82,7 +85,8 @@ export default function Step0Form({ data, onSuccess }) {
           <Descriptions.Item label="Company Name">{requirement.companyName}</Descriptions.Item>
           <Descriptions.Item label="Description" >{requirement.description}</Descriptions.Item>
         </Descriptions>
-        </Card>
+          </Card>
+        )
         ))}
         {/* {requirementList.map((requirement, index) => (
           (index<3) ? (
