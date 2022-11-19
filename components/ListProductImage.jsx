@@ -1,5 +1,5 @@
-import { Button, Col, Image, Modal, notification, Row, Typography, Upload } from "antd"
-import { PlusOutlined, UploadOutlined } from '@ant-design/icons';
+import { Button, Col, Image, message, Modal, notification, Popconfirm, Row, Typography, Upload } from "antd"
+import { InboxOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import ImgCrop from "antd-img-crop";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -8,7 +8,7 @@ import { useDownloadURL, useUploadFile  } from 'react-firebase-hooks/storage';
 import { auth, db, storage } from "../config/firebase";
 import { useRouter } from "next/router";
 import { getDownloadURL, ref } from "firebase/storage";
-import { addDoc, arrayUnion, doc, setDoc, updateDoc } from "firebase/firestore";
+import { addDoc, arrayRemove, arrayUnion, doc, setDoc, updateDoc } from "firebase/firestore";
 import { useDocument } from 'react-firebase-hooks/firestore';
 const props = {
   name: 'file',
@@ -97,6 +97,14 @@ function ListProductImage() {
     }
   );
 
+  const handleDelete = async (imageId) => {
+    await updateDoc(doc(db, `users`, `${loggedInUser?.uid}`), {
+      imageInfo: arrayRemove(imageId)
+    });
+
+    message.info('Xóa ảnh có ID: ' + imageId.name + ' thành công');
+  }
+
   return (
     <div style={{zIndex:10, minHeight:'1000px', width:'1000px'}}>
       <Row gutter={[20,50]}>
@@ -106,11 +114,14 @@ function ListProductImage() {
             offset: index%2 === 0 ? 0 : 2,
           }
           return (
-            <Col span={8} {...ImageProps}>
+            <Col span={8} {...ImageProps} style={{display:'flex', alignItems:'center', flexDirection:'column'}}>
               <Image
                 src={item.linkImg}
                 alt={"image"}
               />
+              <Popconfirm placement="topLeft" title={"Bạn có chắc muốn xóa không"} onConfirm={() => handleDelete(item)} okText="Yes" cancelText="No">
+                <Button type="danger">Xóa ảnh</Button>
+              </Popconfirm>
             </Col>
             )
           })
@@ -118,19 +129,27 @@ function ListProductImage() {
         
       </Row>
       
-      <div style={{marginTop:'20px'}}>
+      <div style={{marginTop:'20px', display: 'flex', flexFlow:'column', width:'400px'}}>
         <ImgCrop rotate>
-          <Upload
-            {...props}
-          >
-            <Button icon={<UploadOutlined />} style={{zIndex:100}}>Thêm sản phẩm và tên</Button>
-          </Upload>
+        <Upload.Dragger
+          // style={{width:'50%'}}
+              {...props}
+            >
+              <p className="ant-upload-drag-icon">
+                <InboxOutlined />
+              </p>
+              <p className="ant-upload-text">Click or drag file to this area to upload</p>
+              <p className="ant-upload-hint" style={{zIndex:100}}>
+              Thêm sản phẩm
+              </p>
+            </Upload.Dragger>
         </ImgCrop>
         <Button type='primary' onClick={() => {
           upload();
-        }} style={{zIndex:100}}>Upload
+        }} style={{zIndex:100, marginTop:'10px'}}>Upload
         </Button>
       </div>
+            
     </div>
   )
 }

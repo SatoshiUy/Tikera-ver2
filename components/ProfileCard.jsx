@@ -1,5 +1,5 @@
 import { UploadOutlined } from '@ant-design/icons';
-import { Button, notification, Space, Typography, Upload } from 'antd';
+import { Button, Card, Col, Descriptions, notification, Space, Typography, Upload } from 'antd';
 import Image from 'next/image';
 import React from 'react'
 import { useState } from 'react';
@@ -81,6 +81,7 @@ function ProfileCard() {
 
   }
 
+  const designer = value?.data();
 
   return (
     <>
@@ -104,7 +105,15 @@ function ProfileCard() {
         }} style={{zIndex:100, position: 'relative', left:'50%', transform: 'translateX(-50%)'}} align="center">Upload</Button>
         <div style={{zIndex:40, padding: '20px'}}>
           <Typography.Title align="middle">Giới thiệu</Typography.Title>
-          <Typography.Paragraph>{value?.data().description}</Typography.Paragraph>
+
+            <Descriptions size="small" layout="vertical" column={2} bordered style={{textAlign: 'left' ,fontSize:"30px"}}>
+            <Descriptions.Item label="Email" span={2}>{designer?.email}</Descriptions.Item>
+              <Descriptions.Item label="Position">{designer?.position}</Descriptions.Item>
+              <Descriptions.Item label="Role">{designer?.role}</Descriptions.Item>
+              <Descriptions.Item label="Strength" span={2}>{designer?.strength}</Descriptions.Item>
+              <Descriptions.Item label="Description" span={2}>{designer?.description}</Descriptions.Item>
+            </Descriptions>
+
       </div>
       </Space>
     </>
