@@ -129,7 +129,7 @@ function ListProductImage() {
         
       </Row>
       
-      <div style={{marginTop:'20px', display: 'flex', flexFlow:'column', width:'400px'}}>
+      <div style={{marginTop:'20px', display: 'flex', flexFlow:'column', width:'320px'}}>
         <ImgCrop rotate>
         <Upload.Dragger
           // style={{width:'50%'}}
