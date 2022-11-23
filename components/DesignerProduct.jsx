@@ -19,6 +19,9 @@ export default function Step0Form({ data, onSuccess }) {
   const router = useRouter()
 
   const q = query(collection(db, "requirements"), where("bookDesignerUID", "==", loggedInUser.uid));
+  console.log("UID:", loggedInUser.uid)
+
+  console.log(q)
 
   React.useEffect(
     () => {

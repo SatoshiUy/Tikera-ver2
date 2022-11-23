@@ -32,7 +32,6 @@ export default function Step2Form({ data, onSuccess }) {
         {
           ...data,
           isPayment: false,
-          bookDesignerUID: data.uid
         },
         {merge: true}
       )

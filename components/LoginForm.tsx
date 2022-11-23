@@ -47,6 +47,13 @@ export const RegisterForm: React.FC<LoginFormProps> = ({
     if (user) {
       router.push('/');
     }
+
+    if(error) {
+      notification.error({
+        message: 'Error',
+        description: error.message
+      })
+    };
     const _onSubmit = async () => {
       formController.submit();
 
@@ -67,14 +74,7 @@ export const RegisterForm: React.FC<LoginFormProps> = ({
           password: password
         }
       );
-        try {
-          signInWithEmailAndPassword(user.username, user.password);
-        } catch(error: any) {
-          notification.error({
-            message: 'Error',
-            description: "Lỗi xảy ra"
-          })
-        };
+      signInWithEmailAndPassword(user.username, user.password);
 
     };
 

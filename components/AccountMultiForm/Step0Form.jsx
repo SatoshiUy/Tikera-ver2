@@ -21,7 +21,8 @@ export default function Step1Form({ data, onSuccess }) {
       await setDoc(
         doc(db, 'users', loggedInUser.uid),
         {
-          role: value
+          role: value,
+          uid: loggedInUser.uid,
         },
         {merge: true}
       )
